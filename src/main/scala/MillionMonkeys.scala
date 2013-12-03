@@ -47,15 +47,14 @@ object MillionMonkeys {
       println("usage: MillionMonkeys <target directory> <level 1>[...<level n>]")
     else {
       val root = Seq(args(0) + "/test")
-      val levels = args.drop(1).map(_.toInt).toList
+      val levels = args.drop(1).map(_.toInt).toList.zipWithIndex
 
-      (root /: levels) { (r, l) => r.mkdir; r flatMap { names(l) in _ } }.create
-
-      levels.zipWithIndex.foreach {
-        case (l, i) =>
-          val levelTotal = (1 /: levels.take(i + 1)) { (r, c) => r * c }
-          println("Level " + i + ':' + levelTotal)
-      }
+      (root /: levels) { (r, l) =>
+        r.mkdir
+        val level = r flatMap { names(l._1) in _ }
+        println("Level " + l._2 + ':' + level.length)
+        level
+      }.create
     }
   }
 

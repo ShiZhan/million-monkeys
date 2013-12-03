@@ -1,4 +1,4 @@
-name := "million-monkeys"
+name := "MillionMonkeys"
 
 version := "1.0"
 

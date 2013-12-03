@@ -43,8 +43,8 @@ object MillionMonkeys {
   def names(n: Int) = (1 to n) map { i => "%08x".format(i) }
 
   def main(args: Array[String]) = {
-    if (args.length < 3)
-      println("usage: MillionMonkeys <target directory> <level 1>...<level n>")
+    if (args.length < 2)
+      println("usage: MillionMonkeys <target directory> <level 1>[...<level n>]")
     else {
       val root = Seq(args(0) + "/test")
       val levels = args.drop(1).map(_.toInt).toList

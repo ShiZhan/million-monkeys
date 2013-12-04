@@ -12,8 +12,9 @@ How to use:
 
 E.g.:
 
-java -jar MillionMonkeys-assembly-1.0.jar . 10 10 10
+java -jar MillionMonkeys-assembly-1.0.jar . 10 10 10 1024
 
 Which means create a 'test' directory in current directory (.),
 then create 10 (level 1) sub-directories inside. For every level 1 sub-directory,
-create 10 (level 2) sub-sub-directories, each with 10 (level 3) files with random text.
+create 10 (level 2) sub-sub-directories, each with 10 (level 3) files with random text,
+and every file is 1024 Bytes long.

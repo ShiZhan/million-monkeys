@@ -24,9 +24,9 @@ object MillionMonkeys {
     (0 to length) map { c => chars(Random.nextInt(chars.length)) } mkString
   }
 
-  def createFile(name: String) = {
+  def createFile(name: String, size: Int) = {
     val p = new PrintWriter(new File(name))
-    p.print(randomStr(1024))
+    p.print(randomStr(size - 1))
     p.close
   }
 
@@ -35,25 +35,29 @@ object MillionMonkeys {
   class Names[T](nList: Seq[String]) {
     def in(parent: String) = nList map { parent + '/' + _ }
     def mkdir = nList foreach createDir
-    def create = nList foreach createFile
+    def create(size: Int) = nList foreach { createFile(_, size) }
   }
 
-  implicit def names[T](nList: Seq[String]) = new Names(nList)
+  implicit def strings2names[T](nList: Seq[String]) = new Names(nList)
 
   def names(n: Int) = (1 to n) map { i => "%08x".format(i) }
 
+  val usage =
+    "usage: MillionMonkeys <target directory> <level 1>[...<n>] <file size>"
+
   def main(args: Array[String]) = {
-    if (args.length < 2)
-      println("usage: MillionMonkeys <target directory> <level 1>[...<level n>]")
+    if (args.length < 3)
+      println(usage)
     else {
       val root = Seq(args(0) + "/test")
-      val levels = args.drop(1).map(_.toInt).toList
+      val size = args.last.toInt
+      val levels = args.dropRight(1).drop(1).map(_.toInt).toList
 
       (root /: levels) { (r, l) =>
         r.mkdir
         println("Generating: " + l * r.length)
         r flatMap { names(l) in _ }
-      }.create
+      } create size
     }
   }
 

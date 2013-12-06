@@ -32,15 +32,15 @@ object MillionMonkeys {
 
   def createDir(name: String) = new File(name).mkdir
 
-  class Names[T](nList: Seq[String]) {
+  class Names(nList: Seq[String]) {
     def in(parent: String) = nList map { parent + '/' + _ }
     def mkdir = nList foreach createDir
     def create(size: Int) = nList foreach { createFile(_, size) }
   }
 
-  implicit def strings2names[T](nList: Seq[String]) = new Names(nList)
+  implicit def strings2names(nList: Seq[String]) = new Names(nList)
 
-  def names(n: Int) = (1 to n) map { i => "%08x".format(i) }
+  def names(n: Int) = (1 to n) map { "%08x".format(_) }
 
   val usage =
     "usage: MillionMonkeys <target directory> <level 1>[...<n>] <file size>"

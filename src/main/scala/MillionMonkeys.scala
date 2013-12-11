@@ -32,13 +32,13 @@ object MillionMonkeys {
 
   def createDir(name: String) = new File(name).mkdir
 
-  class Names(nList: Seq[String]) {
-    def in(parent: String) = nList map { parent + '/' + _ }
+  case class Names(nList: Seq[String]) {
+    def in(parent: String) = nList map (parent + '/' + _)
     def mkdir = nList foreach createDir
     def create(size: Int) = nList foreach { createFile(_, size) }
   }
 
-  implicit def strings2names(nList: Seq[String]) = new Names(nList)
+  implicit def strings2names(nList: Seq[String]) = Names(nList)
 
   def names(n: Int) = (1 to n) map { "%08x".format(_) }
 
@@ -51,7 +51,7 @@ object MillionMonkeys {
     else {
       val root = Seq(args(0) + "/test")
       val size = args.last.toInt
-      val levels = args.dropRight(1).drop(1).map(_.toInt).toList
+      val levels = args.tail.dropRight(1).map(_.toInt).toList
 
       (root /: levels) { (r, l) =>
         r.mkdir

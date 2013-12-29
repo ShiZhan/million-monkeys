@@ -10,7 +10,7 @@ How to use:
 2. run `sbt assembly`
 3. copy the **MillionMonkeys-assembly-1.0.jar** anywhere and run `java -jar MillionMonkeys-assembly-1.0.jar`
 
-[download](https://dl.dropboxusercontent.com/u/70916622/MillionMonkeys-assembly-1.0.jar)
+[download](http://goo.gl/if4oeq)
 
 E.g.:
 

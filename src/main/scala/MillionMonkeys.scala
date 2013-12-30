@@ -32,13 +32,11 @@ object MillionMonkeys {
 
   def createDir(name: String) = new File(name).mkdir
 
-  case class Names(nList: Seq[String]) {
+  implicit class Names(nList: Seq[String]) {
     def in(parent: String) = nList map (parent + '/' + _)
     def mkdir = nList foreach createDir
     def create(size: Int) = nList foreach { createFile(_, size) }
   }
-
-  implicit def strings2names(nList: Seq[String]) = Names(nList)
 
   def names(n: Int) = (1 to n) map { "%08x".format(_) }
 

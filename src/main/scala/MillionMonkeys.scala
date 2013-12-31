@@ -21,12 +21,12 @@ object MillionMonkeys {
 
   def randomStr(length: Int) = {
     val chars = ('a' to 'z') ++ ('A' to 'Z') ++ Array('\n', ' ')
-    (0 to length) map { c => chars(Random.nextInt(chars.length)) } mkString
+    Iterator.continually(chars(Random.nextInt(chars.length))).take(length)
   }
 
   def createFile(name: String, size: Int) = {
     val p = new PrintWriter(new File(name))
-    p.print(randomStr(size - 1))
+    randomStr(size - 1).grouped(65536).foreach { i => p.print(i.mkString) }
     p.close
   }
 
@@ -47,7 +47,7 @@ object MillionMonkeys {
     if (args.length < 3)
       println(usage)
     else {
-      val root = Seq(args(0) + "/test")
+      val root = Seq(args(0))
       implicit val size = args.last.toInt
       val levels = args.tail.init.map(_.toInt).toList
 

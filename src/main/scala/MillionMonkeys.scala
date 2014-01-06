@@ -24,9 +24,10 @@ object MillionMonkeys {
     Iterator.continually(chars(Random.nextInt(chars.length))).take(length)
   }
 
+  val blockSize = 65536
   def createFile(name: String, size: Int) = {
     val p = new PrintWriter(new File(name))
-    randomStr(size - 1).grouped(65536).foreach { i => p.print(i.mkString) }
+    randomStr(size).grouped(blockSize).foreach { i => p.print(i.mkString) }
     p.close
   }
 

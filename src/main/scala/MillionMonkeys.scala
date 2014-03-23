@@ -15,7 +15,6 @@
  */
 
 object MillionMonkeys {
-
   import java.io.{ File, PrintWriter }
   import scala.util.Random
 
@@ -27,7 +26,7 @@ object MillionMonkeys {
   val blockSize = 65536
   def createFile(name: String, size: Int) = {
     val p = new PrintWriter(new File(name))
-    randomStr(size).grouped(blockSize).foreach { i => p.print(i.mkString) }
+    randomStr(size).grouped(blockSize).map(_.mkString).foreach(p.print)
     p.close
   }
 
@@ -59,5 +58,4 @@ object MillionMonkeys {
       } create
     }
   }
-
 }

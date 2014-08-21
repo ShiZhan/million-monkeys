@@ -35,7 +35,7 @@ object MillionMonkeys {
   implicit class Names(nList: Seq[String]) {
     def in(parent: String) = nList map (parent + '/' + _)
     def mkdir = nList foreach createDir
-    def create(implicit size: Int) = nList foreach { createFile(_, size) }
+    def create(size: Int) = nList foreach { createFile(_, size) }
   }
 
   def names(n: Int) = (1 to n) map { "%08x".format(_) }
@@ -43,19 +43,17 @@ object MillionMonkeys {
   val usage =
     "usage: MillionMonkeys <target directory> <level 1>[...<n>] <file size>"
 
-  def main(args: Array[String]) = {
-    if (args.length < 3)
-      println(usage)
-    else {
-      val root = Seq(args(0))
-      implicit val size = args.last.toInt
-      val levels = args.tail.init.map(_.toInt).toList
+  def main(args: Array[String]) = if (args.length < 3)
+    println(usage)
+  else {
+    val root = Seq(args(0))
+    val size = args.last.toInt
+    val levels = args.tail.init.map(_.toInt).toList
 
-      (root /: levels) { (r, l) =>
-        r.mkdir
-        println("Generating: " + l * r.length)
-        r.flatMap { names(l) in _ }
-      } create
-    }
+    (root /: levels) { (r, l) =>
+      r.mkdir
+      println("Generating: " + l * r.length)
+      r.flatMap { names(l) in _ }
+    } create(size)
   }
 }

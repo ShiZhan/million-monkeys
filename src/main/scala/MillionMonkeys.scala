@@ -34,7 +34,7 @@ object MillionMonkeys {
 
   implicit class Names(nList: Seq[String]) {
     def in(parent: String) = nList map (parent + '/' + _)
-    def mkdir = nList foreach createDir
+    def mkdir() = nList foreach createDir
     def create(size: Int) = nList foreach { createFile(_, size) }
   }
 
